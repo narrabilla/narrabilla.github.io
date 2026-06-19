@@ -1,0 +1,101 @@
+{
+  "_note": "Edit this file to update the whole site — name, bio, demos, services, contact. See README.md ('Editing your content') for how. After editing, refresh the page (served by a server / GitHub Pages, not by double-clicking the file).",
+
+  "site": {
+    "name": "Nabilla Zahrina",
+    "initials": "NZ",
+    "role": "Voice Over Artist",
+    "seoTitle": "Nabilla Zahrina — Voice Over Artist",
+    "seoDescription": "Bilingual Indonesian and English voice over with a warm, conversational tone — natural, genuine, and easy to listen to, for commercials, narration, e-learning and more. Fresh talent, fast and flexible.",
+    "navLinks": [
+      { "label": "About", "href": "#about" },
+      { "label": "Demos", "href": "#demos" },
+      { "label": "Services", "href": "#services" },
+      { "label": "Why me", "href": "#testimonials" }
+    ],
+    "navCta": { "label": "Let's talk", "href": "#contact" }
+  },
+
+  "hero": {
+    "eyebrow": "Voice Over Artist · Available for hire",
+    "titleTop": "A voice that feels",
+    "titleEm": "like a friend talking.",
+    "lede": "Hi, I'm Nabilla — a voice-over artist with a warm, conversational style that feels natural, genuine, and easy to listen to. I work across commercials, narration, e-learning and beyond, in both Indonesian and English — and I'm open to all kinds of projects.",
+    "photo": "",
+    "badge": "Home recording · ID & EN voice",
+    "ctaPrimary": { "label": "Hear my demos", "href": "#demos" },
+    "ctaSecondary": { "label": "Book me for a project", "href": "#contact" },
+    "stats": [
+      { "value": "ID + EN", "label": "voiced in both" },
+      { "value": "Warm", "label": "natural, genuine read" },
+      { "value": "Open", "label": "to every kind of brief" }
+    ]
+  },
+
+  "about": {
+    "eyebrow": "About",
+    "heading": "Nice to meet you.",
+    "paragraphs": [
+      "My voice is naturally warm and conversational — genuine, easy to listen to, and the kind that helps a brand feel approachable rather than scripted. I'm comfortable across commercials, narration, e-learning and more, and I happily take on new styles and briefs of all kinds.",
+      "I work comfortably in both Indonesian and English (and yes, my English is solid), so I can voice for local and international-facing projects alike. I'm early in my voice-over journey, which means every project gets my full focus, fresh energy, and real care — have a listen to the samples below and hear for yourself."
+    ],
+    "chips": ["Warm", "Friendly", "Genuine", "Bilingual · ID & EN", "Conversational", "Versatile"],
+    "details": [
+      { "title": "Languages", "text": "Indonesian (native) and English (fluent) — happy to voice in either." },
+      { "title": "Recording setup", "text": "Home recording, edited in CapCut Pro — clean, ready-to-use files. Upgrading the kit as projects grow." },
+      { "title": "Delivery", "text": "Edited MP3 / WAV, ready to drop in. Quick, flexible turnaround." }
+    ]
+  },
+
+  "demos": {
+    "eyebrow": "Demos",
+    "heading": "Have a listen & a look.",
+    "sub": "Audio reels by category, plus selected video work.",
+    "audioTabLabel": "🎧 Audio reels",
+    "videoTabLabel": "🎬 Video work",
+    "audio": [
+      { "tag": "Commercial", "title": "Commercial Reel", "desc": "Bright, brand-friendly spots — retail, tech & lifestyle.", "src": "assets/audio/commercial-reel.mp3" },
+      { "tag": "Narration", "title": "Narration Reel", "desc": "Documentary & corporate storytelling with a steady, warm hand.", "src": "assets/audio/narration-reel.mp3" },
+      { "tag": "e-Learning", "title": "e-Learning Reel", "desc": "Clear, friendly, easy to follow — modules that don't put you to sleep.", "src": "assets/audio/elearning-reel.mp3" },
+      { "tag": "Character", "title": "Character & Animation", "desc": "A playful cast of voices for games, animation & explainers.", "src": "assets/audio/character-reel.mp3" }
+    ],
+    "video": [
+      { "title": "Female Secret", "caption": "Voice over & narration.", "src": "assets/video/female-secret.mp4", "poster": "assets/img/female-secret-poster.jpg" }
+    ]
+  },
+
+  "services": {
+    "eyebrow": "Services",
+    "heading": "How I can help.",
+    "items": [
+      { "icon": "📺", "title": "Commercials", "desc": "TV, radio & social spots that sound like a person, not a pitch." },
+      { "icon": "🎙️", "title": "Narration", "desc": "Documentary, corporate & brand films carried with warmth and pace." },
+      { "icon": "🎓", "title": "e-Learning", "desc": "Clear, engaging module reads — long-form friendly, pronunciation perfect." },
+      { "icon": "🎭", "title": "Character & Animation", "desc": "A flexible range of voices for games, animation and explainers." },
+      { "icon": "📚", "title": "Audiobooks", "desc": "Long-form narration that keeps listeners leaning in chapter after chapter." },
+      { "icon": "📞", "title": "IVR & Phone", "desc": "On-hold, prompts & messaging that make your brand sound welcoming." }
+    ]
+  },
+
+  "why": {
+    "eyebrow": "Why me",
+    "heading": "Why work with Nabilla.",
+    "sub": "What a fresh, dedicated voice brings to your next project.",
+    "cards": [
+      { "icon": "💬", "title": "Warm & conversational", "desc": "A natural, easy-to-listen-to tone that makes your message feel genuine, never scripted." },
+      { "icon": "🌏", "title": "Bilingual", "desc": "Fluent in Indonesian and English, so your message lands with local and global audiences alike." },
+      { "icon": "✨", "title": "Fresh & all-in", "desc": "Early in my journey and dedicated to every brief — quick replies, careful reads, and genuine care for getting it right." }
+    ]
+  },
+
+  "contact": {
+    "eyebrow": "Let's talk",
+    "heading": "Tell me about your project.",
+    "lede": "Scripts, timelines, or that half-formed idea you can't stop thinking about — I'd love to hear it. Reach out whichever way is easiest for you, and I'll reply personally.",
+    "methods": {
+      "instagram": { "handle": "@narrabilla", "url": "https://instagram.com/narrabilla" },
+      "whatsapp": { "display": "+62 857-7998-3483", "url": "https://wa.me/6285779983483" },
+      "email": "nabillazahrina@gmail.com"
+    }
+  }
+}

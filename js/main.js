@@ -1,164 +1,358 @@
 /* =============================================================
-   Jordan Vale — Voice Over Portfolio  ·  interactions
-   Vanilla JS, no dependencies.
+   Voice Over Portfolio  ·  renders the whole page from content.json
+   Vanilla JS, no dependencies. To change content, edit content.json.
    ============================================================= */
 (function () {
   "use strict";
 
-  /* ---------- Year in footer ---------- */
-  var yearEl = document.getElementById("year");
-  if (yearEl) yearEl.textContent = new Date().getFullYear();
-
-  /* ---------- Sticky nav shadow on scroll ---------- */
-  var nav = document.getElementById("nav");
-  var onScroll = function () {
-    if (window.scrollY > 8) nav.classList.add("is-scrolled");
-    else nav.classList.remove("is-scrolled");
-  };
-  window.addEventListener("scroll", onScroll, { passive: true });
-  onScroll();
-
-  /* ---------- Mobile menu ---------- */
-  var toggle = document.getElementById("navToggle");
-  var links = document.getElementById("navLinks");
-  if (toggle && links) {
-    toggle.addEventListener("click", function () {
-      var open = links.classList.toggle("is-open");
-      toggle.setAttribute("aria-expanded", String(open));
-    });
-    links.addEventListener("click", function (e) {
-      if (e.target.tagName === "A") {
-        links.classList.remove("is-open");
-        toggle.setAttribute("aria-expanded", "false");
-      }
+  /* Escape text/attribute values before putting them into HTML. */
+  function esc(s) {
+    return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c];
     });
   }
+  function $(id) { return document.getElementById(id); }
 
-  /* ---------- Active nav link via scroll spy ---------- */
-  var navAnchors = Array.prototype.slice.call(
-    document.querySelectorAll('.nav__links a[href^="#"]')
-  );
-  var sections = navAnchors
-    .map(function (a) { return document.querySelector(a.getAttribute("href")); })
-    .filter(Boolean);
+  /* ---------- Load content, then render + wire up ---------- */
+  fetch("content.json", { cache: "no-cache" })
+    .then(function (r) {
+      if (!r.ok) throw new Error("HTTP " + r.status);
+      return r.json();
+    })
+    .then(function (data) {
+      render(data);
+      initInteractions();
+    })
+    .catch(showLoadError);
 
-  if ("IntersectionObserver" in window && sections.length) {
-    var spy = new IntersectionObserver(
-      function (entries) {
+  /* ============================================================
+     RENDER
+     ============================================================ */
+  function render(d) {
+    var s = d.site || {};
+
+    /* SEO (applied from JSON, with the static <head> tags as fallback) */
+    if (s.seoTitle) document.title = s.seoTitle;
+    var metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc && s.seoDescription) metaDesc.setAttribute("content", s.seoDescription);
+
+    renderNav(s);
+    renderHero(d.hero || {});
+    renderAbout(d.about || {});
+    renderDemos(d.demos || {});
+    renderServices(d.services || {});
+    renderWhy(d.why || {});
+    renderContact(d.contact || {});
+    renderFooter(s);
+  }
+
+  function renderNav(s) {
+    var links = (s.navLinks || []).map(function (l) {
+      return '<a href="' + esc(l.href) + '">' + esc(l.label) + "</a>";
+    }).join("");
+    var cta = s.navCta
+      ? '<a href="' + esc(s.navCta.href) + '" class="nav__cta">' + esc(s.navCta.label) + "</a>"
+      : "";
+
+    $("navInner").innerHTML =
+      '<a href="#top" class="nav__brand">' +
+        '<span class="nav__mark">' + esc(s.initials) + "</span>" +
+        '<span class="nav__name">' + esc(s.name) + "</span>" +
+      "</a>" +
+      '<nav class="nav__links" id="navLinks" aria-label="Primary">' + links + cta + "</nav>" +
+      '<button class="nav__toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">' +
+        "<span></span><span></span><span></span></button>";
+  }
+
+  function renderHero(h) {
+    var stats = (h.stats || []).map(function (st) {
+      return "<li><strong>" + esc(st.value) + "</strong><span>" + esc(st.label) + "</span></li>";
+    }).join("");
+
+    var portrait = h.photo
+      ? '<div class="hero__portrait" aria-hidden="true" style="background-image:url(\'' + esc(h.photo) + '\')"></div>'
+      : '<div class="hero__portrait" aria-hidden="true"><div class="hero__portrait-fallback">Your<br>photo<br>here</div></div>';
+
+    var pCta = h.ctaPrimary || {}, sCta = h.ctaSecondary || {};
+
+    $("heroInner").innerHTML =
+      '<div class="hero__text">' +
+        '<p class="eyebrow">' + esc(h.eyebrow) + "</p>" +
+        '<h1 class="hero__title">' + esc(h.titleTop) + "<br /><em>" + esc(h.titleEm) + "</em></h1>" +
+        '<p class="hero__lede">' + esc(h.lede) + "</p>" +
+        '<div class="hero__actions">' +
+          '<a href="' + esc(pCta.href) + '" class="btn btn--primary">▶ ' + esc(pCta.label) + "</a>" +
+          '<a href="' + esc(sCta.href) + '" class="btn btn--ghost">' + esc(sCta.label) + "</a>" +
+        "</div>" +
+        '<ul class="hero__stats">' + stats + "</ul>" +
+      "</div>" +
+      '<div class="hero__media">' +
+        portrait +
+        '<div class="hero__badge"><span class="hero__badge-dot"></span> ' + esc(h.badge) + "</div>" +
+      "</div>";
+  }
+
+  function renderAbout(a) {
+    var paras = (a.paragraphs || []).map(function (p) { return "<p>" + esc(p) + "</p>"; }).join("");
+    var chips = (a.chips || []).map(function (c) { return '<span class="chip">' + esc(c) + "</span>"; }).join("");
+    var details = (a.details || []).map(function (dt) {
+      return '<div class="detail"><h3>' + esc(dt.title) + "</h3><p>" + esc(dt.text) + "</p></div>";
+    }).join("");
+
+    $("aboutInner").innerHTML =
+      '<div class="about__head"><p class="eyebrow">' + esc(a.eyebrow) + '</p>' +
+        '<h2 class="section__title">' + esc(a.heading) + "</h2></div>" +
+      '<div class="about__body">' +
+        '<div class="about__col">' + paras + '<div class="about__qualities">' + chips + "</div></div>" +
+        '<div class="about__col about__details">' + details + "</div>" +
+      "</div>";
+  }
+
+  function renderDemos(dm) {
+    var audio = (dm.audio || []).map(function (t) {
+      return (
+        '<article class="player" data-src="' + esc(t.src) + '">' +
+          '<div class="player__top"><span class="player__tag">' + esc(t.tag) + "</span>" +
+            '<span class="player__time" data-role="time">--:--</span></div>' +
+          '<h3 class="player__title">' + esc(t.title) + "</h3>" +
+          '<p class="player__desc">' + esc(t.desc) + "</p>" +
+          '<div class="player__controls">' +
+            '<button class="player__play" data-role="play" aria-label="Play">▶</button>' +
+            '<div class="player__bar" data-role="bar"><span data-role="fill"></span></div>' +
+          "</div>" +
+        "</article>"
+      );
+    }).join("");
+
+    var video = (dm.video || []).map(function (v) {
+      return (
+        '<figure class="vcard"><div class="vcard__frame">' +
+          '<video class="vcard__video" controls preload="none" playsinline poster="' + esc(v.poster) + '">' +
+            '<source src="' + esc(v.src) + '" type="video/mp4" />' +
+            "Your browser doesn't support embedded video." +
+          "</video></div>" +
+          '<figcaption class="vcard__cap"><h3>' + esc(v.title) + "</h3><p>" + esc(v.caption) + "</p></figcaption>" +
+        "</figure>"
+      );
+    }).join("");
+
+    $("demosInner").innerHTML =
+      '<div class="section__head"><p class="eyebrow">' + esc(dm.eyebrow) + '</p>' +
+        '<h2 class="section__title">' + esc(dm.heading) + "</h2>" +
+        '<p class="section__sub">' + esc(dm.sub) + "</p></div>" +
+      '<div class="tabs" role="tablist" aria-label="Demo categories">' +
+        '<button class="tab is-active" role="tab" aria-selected="true" data-tab="audio">' + esc(dm.audioTabLabel) + "</button>" +
+        '<button class="tab" role="tab" aria-selected="false" data-tab="video">' + esc(dm.videoTabLabel) + "</button>" +
+      "</div>" +
+      '<div class="tab-panel is-active" id="panel-audio" role="tabpanel">' +
+        '<div class="audio-grid">' + audio + "</div>" +
+      "</div>" +
+      '<div class="tab-panel" id="panel-video" role="tabpanel" hidden>' +
+        '<div class="video-grid">' + video + "</div>" +
+      "</div>";
+  }
+
+  function cardHtml(c) {
+    return '<article class="card"><span class="card__icon">' + esc(c.icon) + "</span>" +
+      "<h3>" + esc(c.title) + "</h3><p>" + esc(c.desc) + "</p></article>";
+  }
+
+  function renderServices(sv) {
+    var cards = (sv.items || []).map(cardHtml).join("");
+    $("servicesInner").innerHTML =
+      '<div class="section__head"><p class="eyebrow">' + esc(sv.eyebrow) + '</p>' +
+        '<h2 class="section__title">' + esc(sv.heading) + "</h2></div>" +
+      '<div class="cards">' + cards + "</div>";
+  }
+
+  function renderWhy(w) {
+    var cards = (w.cards || []).map(cardHtml).join("");
+    $("whyInner").innerHTML =
+      '<div class="section__head"><p class="eyebrow">' + esc(w.eyebrow) + '</p>' +
+        '<h2 class="section__title">' + esc(w.heading) + "</h2>" +
+        '<p class="section__sub">' + esc(w.sub) + "</p></div>" +
+      '<div class="cards">' + cards + "</div>";
+  }
+
+  function methodHtml(icon, label, value, href, external) {
+    var attrs = external ? ' target="_blank" rel="noopener"' : "";
+    return '<a class="method" href="' + esc(href) + '"' + attrs + ">" +
+      '<span class="method__icon">' + icon + "</span>" +
+      '<span class="method__label">' + esc(label) + "</span>" +
+      '<span class="method__value">' + esc(value) + "</span></a>";
+  }
+
+  function renderContact(c) {
+    var m = c.methods || {};
+    var ig = m.instagram || {}, wa = m.whatsapp || {};
+    var html =
+      '<p class="eyebrow">' + esc(c.eyebrow) + "</p>" +
+      '<h2 class="section__title">' + esc(c.heading) + "</h2>" +
+      '<p class="contact__lede">' + esc(c.lede) + "</p>" +
+      '<div class="contact__methods">';
+    if (ig.url) html += methodHtml("📸", "Instagram", ig.handle, ig.url, true);
+    if (wa.url) html += methodHtml("💬", "WhatsApp", wa.display, wa.url, true);
+    if (m.email) html += methodHtml("✉️", "Email", m.email, "mailto:" + m.email, false);
+    html += "</div>";
+    $("contactInner").innerHTML = html;
+  }
+
+  function renderFooter(s) {
+    $("footerInner").innerHTML =
+      '<span class="footer__brand">' + esc(s.name) + "</span>" +
+      '<span class="footer__copy">© ' + new Date().getFullYear() + " " + esc(s.name) + " · " + esc(s.role) + "</span>" +
+      '<a href="#top" class="footer__top">Back to top ↑</a>';
+  }
+
+  /* ============================================================
+     INTERACTIONS (run after render, since the DOM is built above)
+     ============================================================ */
+  function initInteractions() {
+    /* Sticky nav shadow */
+    var nav = $("nav");
+    var onScroll = function () {
+      if (window.scrollY > 8) nav.classList.add("is-scrolled");
+      else nav.classList.remove("is-scrolled");
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+
+    /* Mobile menu */
+    var toggle = $("navToggle");
+    var links = $("navLinks");
+    if (toggle && links) {
+      toggle.addEventListener("click", function () {
+        var open = links.classList.toggle("is-open");
+        toggle.setAttribute("aria-expanded", String(open));
+      });
+      links.addEventListener("click", function (e) {
+        if (e.target.tagName === "A") {
+          links.classList.remove("is-open");
+          toggle.setAttribute("aria-expanded", "false");
+        }
+      });
+    }
+
+    /* Scroll-spy: highlight the active nav link */
+    var navAnchors = [].slice.call(document.querySelectorAll('.nav__links a[href^="#"]'));
+    var sections = navAnchors
+      .map(function (a) { return document.querySelector(a.getAttribute("href")); })
+      .filter(Boolean);
+    if ("IntersectionObserver" in window && sections.length) {
+      var spy = new IntersectionObserver(function (entries) {
         entries.forEach(function (entry) {
           if (!entry.isIntersecting) return;
           navAnchors.forEach(function (a) {
-            a.classList.toggle(
-              "is-active",
-              a.getAttribute("href") === "#" + entry.target.id
-            );
+            a.classList.toggle("is-active", a.getAttribute("href") === "#" + entry.target.id);
           });
         });
-      },
-      { rootMargin: "-45% 0px -50% 0px" }
-    );
-    sections.forEach(function (s) { spy.observe(s); });
+      }, { rootMargin: "-45% 0px -50% 0px" });
+      sections.forEach(function (s) { spy.observe(s); });
+    }
+
+    /* Demo tabs */
+    var tabs = [].slice.call(document.querySelectorAll(".tab"));
+    tabs.forEach(function (tab) {
+      tab.addEventListener("click", function () {
+        var target = tab.getAttribute("data-tab");
+        tabs.forEach(function (t) {
+          var active = t === tab;
+          t.classList.toggle("is-active", active);
+          t.setAttribute("aria-selected", String(active));
+        });
+        document.querySelectorAll(".tab-panel").forEach(function (panel) {
+          var show = panel.id === "panel-" + target;
+          panel.classList.toggle("is-active", show);
+          panel.hidden = !show;
+        });
+      });
+    });
+
+    initAudioPlayers();
   }
 
-  /* ---------- Demo tabs ---------- */
-  var tabs = Array.prototype.slice.call(document.querySelectorAll(".tab"));
-  tabs.forEach(function (tab) {
-    tab.addEventListener("click", function () {
-      var target = tab.getAttribute("data-tab");
-      tabs.forEach(function (t) {
-        var active = t === tab;
-        t.classList.toggle("is-active", active);
-        t.setAttribute("aria-selected", String(active));
-      });
-      document.querySelectorAll(".tab-panel").forEach(function (panel) {
-        var show = panel.id === "panel-" + target;
-        panel.classList.toggle("is-active", show);
-        panel.hidden = !show;
-      });
-    });
-  });
+  /* ---------- Custom audio players (one shared <audio>) ---------- */
+  function initAudioPlayers() {
+    var audio = new Audio();
+    var current = null;
 
-  /* ---------- Custom audio players ----------
-     One <audio> element is shared; only one track plays at a time. */
-  var audio = new Audio();
-  var current = null; // the .player article currently bound to `audio`
-
-  var fmt = function (s) {
-    if (!isFinite(s)) return "--:--";
-    var m = Math.floor(s / 60);
-    var ss = Math.floor(s % 60);
-    return m + ":" + (ss < 10 ? "0" : "") + ss;
-  };
-
-  var players = Array.prototype.slice.call(document.querySelectorAll(".player"));
-
-  players.forEach(function (player) {
-    var src = player.getAttribute("data-src");
-    var playBtn = player.querySelector('[data-role="play"]');
-    var timeEl = player.querySelector('[data-role="time"]');
-    var bar = player.querySelector('[data-role="bar"]');
-    var fill = player.querySelector('[data-role="fill"]');
-
-    // Probe the file so we can show duration (and disable if missing).
-    var probe = new Audio();
-    probe.preload = "metadata";
-    probe.src = src;
-    probe.addEventListener("loadedmetadata", function () {
-      timeEl.textContent = fmt(probe.duration);
-    });
-    probe.addEventListener("error", function () {
-      player.classList.add("is-disabled");
-      timeEl.textContent = "soon";
-    });
-
-    var setPlayingUI = function (playing) {
-      playBtn.classList.toggle("is-playing", playing);
-      playBtn.textContent = playing ? "❚❚" : "▶";
-      playBtn.setAttribute("aria-label", playing ? "Pause" : "Play");
+    var fmt = function (s) {
+      if (!isFinite(s)) return "--:--";
+      var m = Math.floor(s / 60);
+      var ss = Math.floor(s % 60);
+      return m + ":" + (ss < 10 ? "0" : "") + ss;
     };
 
-    playBtn.addEventListener("click", function () {
-      if (player.classList.contains("is-disabled")) return;
+    [].slice.call(document.querySelectorAll(".player")).forEach(function (player) {
+      var src = player.getAttribute("data-src");
+      var playBtn = player.querySelector('[data-role="play"]');
+      var timeEl = player.querySelector('[data-role="time"]');
+      var bar = player.querySelector('[data-role="bar"]');
+      var fill = player.querySelector('[data-role="fill"]');
 
-      // Switching to a different track? reset the previous one's UI.
-      if (current && current !== player) {
-        current._reset();
-      }
+      var probe = new Audio();
+      probe.preload = "metadata";
+      probe.src = src;
+      probe.addEventListener("loadedmetadata", function () { timeEl.textContent = fmt(probe.duration); });
+      probe.addEventListener("error", function () {
+        player.classList.add("is-disabled");
+        timeEl.textContent = "soon";
+      });
 
-      if (current !== player) {
-        audio.src = src;
-        current = player;
-        current._reset = function () {
+      var setPlayingUI = function (playing) {
+        playBtn.classList.toggle("is-playing", playing);
+        playBtn.textContent = playing ? "❚❚" : "▶";
+        playBtn.setAttribute("aria-label", playing ? "Pause" : "Play");
+      };
+
+      playBtn.addEventListener("click", function () {
+        if (player.classList.contains("is-disabled")) return;
+        if (current && current !== player) current._reset();
+
+        if (current !== player) {
+          audio.src = src;
+          current = player;
+          current._reset = function () { setPlayingUI(false); fill.style.width = "0%"; };
+          current._sync = function () {
+            var pct = (audio.currentTime / audio.duration) * 100 || 0;
+            fill.style.width = pct + "%";
+            timeEl.textContent = fmt(audio.duration - audio.currentTime);
+          };
+        }
+
+        if (audio.paused) {
+          audio.play().then(function () { setPlayingUI(true); }).catch(function () {});
+        } else {
+          audio.pause();
           setPlayingUI(false);
-          fill.style.width = "0%";
-        };
-        current._sync = function () {
-          var pct = (audio.currentTime / audio.duration) * 100 || 0;
-          fill.style.width = pct + "%";
-          timeEl.textContent = fmt(audio.duration - audio.currentTime);
-        };
-      }
+        }
+      });
 
-      if (audio.paused) {
-        audio.play().then(function () { setPlayingUI(true); }).catch(function () {});
-      } else {
-        audio.pause();
-        setPlayingUI(false);
-      }
+      bar.addEventListener("click", function (e) {
+        if (current !== player || !isFinite(audio.duration)) return;
+        var rect = bar.getBoundingClientRect();
+        audio.currentTime = ((e.clientX - rect.left) / rect.width) * audio.duration;
+      });
     });
 
-    // Click-to-seek on the progress bar.
-    bar.addEventListener("click", function (e) {
-      if (current !== player || !isFinite(audio.duration)) return;
-      var rect = bar.getBoundingClientRect();
-      audio.currentTime = ((e.clientX - rect.left) / rect.width) * audio.duration;
-    });
-  });
+    audio.addEventListener("timeupdate", function () { if (current && current._sync) current._sync(); });
+    audio.addEventListener("ended", function () { if (current && current._reset) current._reset(); });
+  }
 
-  audio.addEventListener("timeupdate", function () {
-    if (current && current._sync) current._sync();
-  });
-  audio.addEventListener("ended", function () {
-    if (current && current._reset) current._reset();
-  });
+  /* ---------- Friendly error if content.json can't be loaded ---------- */
+  function showLoadError(err) {
+    console.error("Could not load content.json:", err);
+    var box = document.createElement("div");
+    box.style.cssText =
+      "max-width:620px;margin:12vh auto;padding:2rem;font-family:system-ui,-apple-system,sans-serif;" +
+      "text-align:center;color:#2E2722;line-height:1.6;";
+    box.innerHTML =
+      '<h1 style="font-family:Georgia,serif;font-size:1.5rem;margin-bottom:.7rem;">Couldn\'t load content.json</h1>' +
+      '<p style="color:#6F6258;">This page loads its content from <b>content.json</b>. Browsers block that ' +
+      "when you open the HTML file directly (the <code>file://</code> address).</p>" +
+      '<p style="color:#6F6258;">Run a tiny local server, then open <b>http://localhost:8000</b>:</p>' +
+      '<pre style="background:#F4EADD;padding:.8rem 1rem;border-radius:10px;display:inline-block;text-align:left;">python3 -m http.server 8000</pre>' +
+      '<p style="color:#6F6258;">On GitHub Pages this works automatically — no setup needed.</p>';
+    document.body.appendChild(box);
+  }
 })();

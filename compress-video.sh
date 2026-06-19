@@ -44,4 +44,6 @@ ffmpeg -y -hide_banner -loglevel error -ss 2 -i "$INPUT" \
 
 SIZE=$(du -h "assets/video/${NAME}.mp4" | cut -f1)
 echo "✅ Done — assets/video/${NAME}.mp4 (${SIZE})"
-echo "   Now add a <figure class=\"vcard\"> block in index.html pointing at it."
+echo "   Now add an entry to the demos.video list in content.json:"
+echo "   { \"title\": \"My Project\", \"caption\": \"Voice over & narration.\","
+echo "     \"src\": \"assets/video/${NAME}.mp4\", \"poster\": \"assets/img/${NAME}-poster.jpg\" }"

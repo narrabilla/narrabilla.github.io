@@ -4,13 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- ============================================================= -->
-  <!-- SEO  ·  edit these to match you                                -->
-  <!-- ============================================================= -->
+  <!-- These are fallbacks. The live values come from content.json (site.seoTitle /
+       site.seoDescription) and are applied on load. -->
   <title>Nabilla Zahrina — Voice Over Artist</title>
-  <meta name="description" content="Bilingual Indonesian and English voice over with a warm, conversational tone — natural, genuine, and easy to listen to, for commercials, narration, e-learning and more. Fresh talent, fast and flexible." />
+  <meta name="description" content="Bilingual Indonesian and English voice over with a warm, conversational tone." />
   <meta property="og:title" content="Nabilla Zahrina — Voice Over Artist" />
-  <meta property="og:description" content="Warm, conversational, bilingual Indonesian and English voice over for brands that want to sound genuine and approachable." />
+  <meta property="og:description" content="Warm, conversational, bilingual voice over for brands that want to sound genuine and approachable." />
   <meta property="og:type" content="website" />
 
   <!-- Fonts -->
@@ -22,344 +21,50 @@
 </head>
 <body>
 
-  <!-- ============================ NAV ============================ -->
+  <!-- ============================================================= -->
+  <!--  All content is rendered from content.json by js/main.js.      -->
+  <!--  To edit the site, change content.json — not this file.        -->
+  <!-- ============================================================= -->
+
   <header class="nav" id="nav">
-    <div class="container nav__inner">
-      <a href="#top" class="nav__brand">
-        <span class="nav__mark">NZ</span>
-        <span class="nav__name">Nabilla Zahrina</span>
-      </a>
-
-      <nav class="nav__links" id="navLinks" aria-label="Primary">
-        <a href="#about">About</a>
-        <a href="#demos">Demos</a>
-        <a href="#services">Services</a>
-        <a href="#testimonials">Why me</a>
-        <a href="#contact" class="nav__cta">Let's talk</a>
-      </nav>
-
-      <button class="nav__toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
+    <div class="container nav__inner" id="navInner"></div>
   </header>
 
   <main id="top">
-
-    <!-- ============================ HERO ============================ -->
     <section class="hero">
-      <div class="container hero__inner">
-        <div class="hero__text">
-          <p class="eyebrow">Voice Over Artist · Available for hire</p>
-          <h1 class="hero__title">
-            A voice that feels<br /><em>like a friend talking.</em>
-          </h1>
-          <p class="hero__lede">
-            Hi, I'm Nabilla — a voice-over artist with a warm, conversational style
-            that feels natural, genuine, and easy to listen to. I work across
-            commercials, narration, e-learning and beyond, in both Indonesian and
-            English — and I'm open to all kinds of projects.
-          </p>
-          <div class="hero__actions">
-            <a href="#demos" class="btn btn--primary">▶ Hear my demos</a>
-            <a href="#contact" class="btn btn--ghost">Book me for a project</a>
-          </div>
-          <ul class="hero__stats">
-            <li><strong>ID + EN</strong><span>voiced in both</span></li>
-            <li><strong>Warm</strong><span>natural, genuine read</span></li>
-            <li><strong>Open</strong><span>to every kind of brief</span></li>
-          </ul>
-        </div>
-
-        <div class="hero__media">
-          <!-- Swap this src for a photo of you: assets/img/portrait.jpg -->
-          <div class="hero__portrait" aria-hidden="true">
-            <div class="hero__portrait-fallback">Your<br>photo<br>here</div>
-          </div>
-          <div class="hero__badge">
-            <span class="hero__badge-dot"></span> Home recording · ID &amp; EN voice
-          </div>
-        </div>
-      </div>
+      <div class="container hero__inner" id="heroInner"></div>
     </section>
 
-    <!-- ============================ ABOUT ============================ -->
     <section class="section" id="about">
-      <div class="container about">
-        <div class="about__head">
-          <p class="eyebrow">About</p>
-          <h2 class="section__title">Nice to meet you.</h2>
-        </div>
-
-        <div class="about__body">
-          <div class="about__col">
-            <p>
-              My voice is naturally warm and conversational — genuine, easy to listen
-              to, and the kind that helps a brand feel approachable rather than scripted.
-              I'm comfortable across commercials, narration, e-learning and more, and I
-              happily take on new styles and briefs of all kinds.
-            </p>
-            <p>
-              I work comfortably in both Indonesian and English (and yes, my English is
-              solid), so I can voice for local and international-facing projects alike.
-              I'm early in my voice-over journey, which means every project gets my full
-              focus, fresh energy, and real care — have a listen to the samples below and
-              hear for yourself.
-            </p>
-
-            <div class="about__qualities">
-              <span class="chip">Warm</span>
-              <span class="chip">Friendly</span>
-              <span class="chip">Genuine</span>
-              <span class="chip">Bilingual · ID &amp; EN</span>
-              <span class="chip">Conversational</span>
-              <span class="chip">Versatile</span>
-            </div>
-          </div>
-
-          <div class="about__col about__details">
-            <div class="detail">
-              <h3>Languages</h3>
-              <p>Indonesian (native) and English (fluent) — happy to voice in either.</p>
-            </div>
-            <div class="detail">
-              <h3>Recording setup</h3>
-              <p>Home recording, edited in CapCut Pro — clean, ready-to-use files. Upgrading the kit as projects grow.</p>
-            </div>
-            <div class="detail">
-              <h3>Delivery</h3>
-              <p>Edited MP3 / WAV, ready to drop in. Quick, flexible turnaround.</p>
-            </div>
-          </div>
-        </div>
-      </div>
+      <div class="container about" id="aboutInner"></div>
     </section>
 
-    <!-- ============================ DEMOS ============================ -->
     <section class="section section--alt" id="demos">
-      <div class="container">
-        <div class="section__head">
-          <p class="eyebrow">Demos</p>
-          <h2 class="section__title">Have a listen &amp; a look.</h2>
-          <p class="section__sub">Audio reels by category, plus selected video work.</p>
-        </div>
-
-        <!-- Tabs -->
-        <div class="tabs" role="tablist" aria-label="Demo categories">
-          <button class="tab is-active" role="tab" aria-selected="true" data-tab="audio">🎧 Audio reels</button>
-          <button class="tab" role="tab" aria-selected="false" data-tab="video">🎬 Video work</button>
-        </div>
-
-        <!-- AUDIO PANEL -->
-        <div class="tab-panel is-active" id="panel-audio" role="tabpanel">
-          <div class="audio-grid">
-            <!-- Each player: set data-src to your file in assets/audio/ -->
-            <article class="player" data-src="assets/audio/commercial-reel.mp3">
-              <div class="player__top">
-                <span class="player__tag">Commercial</span>
-                <span class="player__time" data-role="time">--:--</span>
-              </div>
-              <h3 class="player__title">Commercial Reel</h3>
-              <p class="player__desc">Bright, brand-friendly spots — retail, tech &amp; lifestyle.</p>
-              <div class="player__controls">
-                <button class="player__play" data-role="play" aria-label="Play">▶</button>
-                <div class="player__bar" data-role="bar"><span data-role="fill"></span></div>
-              </div>
-            </article>
-
-            <article class="player" data-src="assets/audio/narration-reel.mp3">
-              <div class="player__top">
-                <span class="player__tag">Narration</span>
-                <span class="player__time" data-role="time">--:--</span>
-              </div>
-              <h3 class="player__title">Narration Reel</h3>
-              <p class="player__desc">Documentary &amp; corporate storytelling with a steady, warm hand.</p>
-              <div class="player__controls">
-                <button class="player__play" data-role="play" aria-label="Play">▶</button>
-                <div class="player__bar" data-role="bar"><span data-role="fill"></span></div>
-              </div>
-            </article>
-
-            <article class="player" data-src="assets/audio/elearning-reel.mp3">
-              <div class="player__top">
-                <span class="player__tag">e-Learning</span>
-                <span class="player__time" data-role="time">--:--</span>
-              </div>
-              <h3 class="player__title">e-Learning Reel</h3>
-              <p class="player__desc">Clear, friendly, easy to follow — modules that don't put you to sleep.</p>
-              <div class="player__controls">
-                <button class="player__play" data-role="play" aria-label="Play">▶</button>
-                <div class="player__bar" data-role="bar"><span data-role="fill"></span></div>
-              </div>
-            </article>
-
-            <article class="player" data-src="assets/audio/character-reel.mp3">
-              <div class="player__top">
-                <span class="player__tag">Character</span>
-                <span class="player__time" data-role="time">--:--</span>
-              </div>
-              <h3 class="player__title">Character &amp; Animation</h3>
-              <p class="player__desc">A playful cast of voices for games, animation &amp; explainers.</p>
-              <div class="player__controls">
-                <button class="player__play" data-role="play" aria-label="Play">▶</button>
-                <div class="player__bar" data-role="bar"><span data-role="fill"></span></div>
-              </div>
-            </article>
-          </div>
-          <p class="audio-note">
-            🎵 Drop your reels into <code>assets/audio/</code> (matching the names above) and they'll play here.
-          </p>
-        </div>
-
-        <!-- VIDEO PANEL -->
-        <div class="tab-panel" id="panel-video" role="tabpanel" hidden>
-          <div class="video-grid">
-            <!-- Portrait 9:16 video card -->
-            <figure class="vcard">
-              <div class="vcard__frame">
-                <video
-                  class="vcard__video"
-                  controls
-                  preload="none"
-                  playsinline
-                  poster="assets/img/female-secret-poster.jpg">
-                  <source src="assets/video/female-secret.mp4" type="video/mp4" />
-                  Your browser doesn't support embedded video.
-                </video>
-              </div>
-              <figcaption class="vcard__cap">
-                <h3>Female Secret</h3>
-                <p>Voice over &amp; narration.</p>
-              </figcaption>
-            </figure>
-
-            <!-- Duplicate this <figure> block for each new video. -->
-            <figure class="vcard vcard--placeholder">
-              <div class="vcard__frame">
-                <div class="vcard__empty">+ Add another video<br><small>copy this card in index.html</small></div>
-              </div>
-              <figcaption class="vcard__cap">
-                <h3>Your next project</h3>
-                <p>Compress it, drop it in <code>assets/video/</code>, done.</p>
-              </figcaption>
-            </figure>
-          </div>
-        </div>
-      </div>
+      <div class="container" id="demosInner"></div>
     </section>
 
-    <!-- ============================ SERVICES ============================ -->
     <section class="section" id="services">
-      <div class="container">
-        <div class="section__head">
-          <p class="eyebrow">Services</p>
-          <h2 class="section__title">How I can help.</h2>
-        </div>
-
-        <div class="cards">
-          <article class="card">
-            <span class="card__icon">📺</span>
-            <h3>Commercials</h3>
-            <p>TV, radio &amp; social spots that sound like a person, not a pitch.</p>
-          </article>
-          <article class="card">
-            <span class="card__icon">🎙️</span>
-            <h3>Narration</h3>
-            <p>Documentary, corporate &amp; brand films carried with warmth and pace.</p>
-          </article>
-          <article class="card">
-            <span class="card__icon">🎓</span>
-            <h3>e-Learning</h3>
-            <p>Clear, engaging module reads — long-form friendly, pronunciation perfect.</p>
-          </article>
-          <article class="card">
-            <span class="card__icon">🎭</span>
-            <h3>Character &amp; Animation</h3>
-            <p>A flexible range of voices for games, animation and explainers.</p>
-          </article>
-          <article class="card">
-            <span class="card__icon">📚</span>
-            <h3>Audiobooks</h3>
-            <p>Long-form narration that keeps listeners leaning in chapter after chapter.</p>
-          </article>
-          <article class="card">
-            <span class="card__icon">📞</span>
-            <h3>IVR &amp; Phone</h3>
-            <p>On-hold, prompts &amp; messaging that make your brand sound welcoming.</p>
-          </article>
-        </div>
-      </div>
+      <div class="container" id="servicesInner"></div>
     </section>
 
-    <!-- ============================ TESTIMONIALS ============================ -->
     <section class="section section--alt" id="testimonials">
-      <div class="container">
-        <div class="section__head">
-          <p class="eyebrow">Why me</p>
-          <h2 class="section__title">Why work with Nabilla.</h2>
-          <p class="section__sub">What a fresh, dedicated voice brings to your next project.</p>
-        </div>
-
-        <div class="cards">
-          <article class="card">
-            <span class="card__icon">💬</span>
-            <h3>Warm &amp; conversational</h3>
-            <p>A natural, easy-to-listen-to tone that makes your message feel genuine, never scripted.</p>
-          </article>
-          <article class="card">
-            <span class="card__icon">🌏</span>
-            <h3>Bilingual</h3>
-            <p>Fluent in Indonesian and English, so your message lands with local and global audiences alike.</p>
-          </article>
-          <article class="card">
-            <span class="card__icon">✨</span>
-            <h3>Fresh &amp; all-in</h3>
-            <p>Early in my journey and dedicated to every brief — quick replies, careful reads, and genuine care for getting it right.</p>
-          </article>
-        </div>
-      </div>
+      <div class="container" id="whyInner"></div>
     </section>
 
-    <!-- ============================ CONTACT ============================ -->
     <section class="section" id="contact">
-      <div class="container contact">
-        <p class="eyebrow">Let's talk</p>
-        <h2 class="section__title">Tell me about your project.</h2>
-        <p class="contact__lede">
-          Scripts, timelines, or that half-formed idea you can't stop thinking about —
-          I'd love to hear it. Reach out whichever way is easiest for you, and I'll
-          reply personally.
-        </p>
-
-        <div class="contact__methods">
-          <a class="method" href="https://instagram.com/narrabilla" target="_blank" rel="noopener">
-            <span class="method__icon">📸</span>
-            <span class="method__label">Instagram</span>
-            <span class="method__value">@narrabilla</span>
-          </a>
-          <a class="method" href="https://wa.me/6285779983483" target="_blank" rel="noopener">
-            <span class="method__icon">💬</span>
-            <span class="method__label">WhatsApp</span>
-            <span class="method__value">+62 857-7998-3483</span>
-          </a>
-          <a class="method" href="mailto:nabillazahrina@gmail.com">
-            <span class="method__icon">✉️</span>
-            <span class="method__label">Email</span>
-            <span class="method__value">nabillazahrina@gmail.com</span>
-          </a>
-        </div>
-      </div>
+      <div class="container contact" id="contactInner"></div>
     </section>
   </main>
 
-  <!-- ============================ FOOTER ============================ -->
   <footer class="footer">
-    <div class="container footer__inner">
-      <span class="footer__brand">Nabilla Zahrina</span>
-      <span class="footer__copy">© <span id="year"></span> Nabilla Zahrina · Voice Over Artist</span>
-      <a href="#top" class="footer__top">Back to top ↑</a>
-    </div>
+    <div class="container footer__inner" id="footerInner"></div>
   </footer>
+
+  <noscript>
+    <p style="text-align:center;padding:2rem;font-family:system-ui,sans-serif;">
+      This portfolio needs JavaScript enabled to display its content.
+    </p>
+  </noscript>
 
   <script src="js/main.js"></script>
 </body>
