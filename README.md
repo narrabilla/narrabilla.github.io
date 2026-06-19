@@ -39,7 +39,7 @@ Everything below is plain text in `index.html` — search and replace:
 
 ## 🎬 Adding videos (the important part)
 
-**Never put a raw camera/export file on the site.** They're huge (your D-Day Launch
+**Never put a raw camera/export file on the site.** They're huge (your first raw
 clip was 207MB) and may be in a codec that won't play in Chrome/Firefox. Compress first:
 
 ```bash
