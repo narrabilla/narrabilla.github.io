@@ -4,13 +4,46 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- These are fallbacks. The live values come from content.json (site.seoTitle /
-       site.seoDescription) and are applied on load. -->
+  <!-- ===== SEO & social sharing =====
+       These are STATIC on purpose: search engines and social-link scrapers
+       (WhatsApp, Instagram, LinkedIn, Facebook) read the raw HTML and do NOT run
+       JavaScript. Keep them roughly in sync with content.json > site if you rebrand. -->
   <title>Nabilla Zahrina — Voice Over Artist</title>
-  <meta name="description" content="Bilingual Indonesian and English voice over with a warm, conversational tone." />
-  <meta property="og:title" content="Nabilla Zahrina — Voice Over Artist" />
-  <meta property="og:description" content="Warm, conversational, bilingual voice over for brands that want to sound genuine and approachable." />
+  <meta name="description" content="Bilingual Indonesian & English voice over with a warm, conversational tone — natural, genuine, and easy to listen to, for commercials, narration, e-learning and more." />
+  <link rel="canonical" href="https://narrabilla.github.io/" />
+
+  <!-- Open Graph (Facebook, WhatsApp, LinkedIn…) -->
   <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Nabilla Zahrina" />
+  <meta property="og:title" content="Nabilla Zahrina — Voice Over Artist" />
+  <meta property="og:description" content="Warm, conversational, bilingual voice over (Indonesian & English) for brands that want to sound genuine and approachable." />
+  <meta property="og:url" content="https://narrabilla.github.io/" />
+  <meta property="og:image" content="https://narrabilla.github.io/assets/img/og-image.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale" content="en_US" />
+
+  <!-- Twitter / X -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Nabilla Zahrina — Voice Over Artist" />
+  <meta name="twitter:description" content="Warm, conversational, bilingual voice over (Indonesian & English)." />
+  <meta name="twitter:image" content="https://narrabilla.github.io/assets/img/og-image.jpg" />
+
+  <!-- Structured data: tells Google this is a person / voice-over artist -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Nabilla Zahrina",
+    "jobTitle": "Voice Over Artist",
+    "description": "Bilingual Indonesian & English voice over with a warm, conversational tone.",
+    "url": "https://narrabilla.github.io/",
+    "image": "https://narrabilla.github.io/assets/img/og-image.jpg",
+    "email": "nabillazahrina@gmail.com",
+    "knowsLanguage": ["id", "en"],
+    "sameAs": ["https://instagram.com/narrabilla"]
+  }
+  </script>
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
