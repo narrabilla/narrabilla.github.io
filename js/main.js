@@ -113,7 +113,12 @@
   function langPill(lang) {
     return lang ? '<span class="lang-pill">' + esc(lang) + "</span>" : "";
   }
-  function audioPlayerHtml(t, titleOverride) {
+  function metaChip(icon, val) {
+    return '<span class="meta-item"><span class="meta-ic">' + icon + "</span>" + esc(val) + "</span>";
+  }
+  function audioPlayerHtml(t, titleOverride, setupFallback) {
+    var setup = t.setup || setupFallback;
+    var meta = setup ? '<div class="player__meta">' + metaChip("🎚️", setup) + "</div>" : "";
     return (
       '<article class="player" data-src="' + esc(t.src) + '">' +
         '<div class="player__top">' +
@@ -121,6 +126,7 @@
           '<span class="player__time" data-role="time">--:--</span></div>' +
         '<h3 class="player__title">' + esc(titleOverride || t.title) + "</h3>" +
         (t.desc ? '<p class="player__desc">' + esc(t.desc) + "</p>" : "") +
+        meta +
         '<div class="player__controls">' +
           '<button class="player__play" data-role="play" aria-label="Play">▶</button>' +
           '<div class="player__bar" data-role="bar"><span data-role="fill"></span></div>' +
@@ -128,11 +134,13 @@
       "</article>"
     );
   }
-  function videoCardHtml(v) {
+  function videoCardHtml(v, setupFallback) {
     var aspect = v.aspect ? ' style="aspect-ratio:' + esc(v.aspect) + '"' : "";
     var labels = (v.tag || v.language)
       ? '<div class="vcard__labels">' + (v.tag ? '<span class="player__tag">' + esc(v.tag) + "</span>" : "") + langPill(v.language) + "</div>"
       : "";
+    var setup = v.setup || setupFallback;
+    var meta = setup ? '<div class="vcard__meta">' + metaChip("🎚️", setup) + "</div>" : "";
     return (
       '<figure class="vcard"><div class="vcard__frame"' + aspect + ">" +
         '<video class="vcard__video" controls preload="none" playsinline poster="' + esc(v.poster) + '">' +
@@ -140,7 +148,7 @@
           "Your browser doesn't support embedded video." +
         "</video></div>" +
         '<figcaption class="vcard__cap">' + labels +
-          "<h3>" + esc(v.title) + "</h3><p>" + esc(v.caption) + "</p></figcaption>" +
+          "<h3>" + esc(v.title) + "</h3><p>" + esc(v.caption) + "</p>" + meta + "</figcaption>" +
       "</figure>"
     );
   }
@@ -154,9 +162,7 @@
   function metaStrip(meta) {
     meta = meta || {};
     var rows = [];
-    var add = function (icon, val) {
-      if (val) rows.push('<span class="meta-item"><span class="meta-ic">' + icon + "</span>" + esc(val) + "</span>");
-    };
+    var add = function (icon, val) { if (val) rows.push(metaChip(icon, val)); };
     add("⏱", meta.turnaround);
     add("🎚️", meta.setup);
     add("🗣️", meta.language);
@@ -199,14 +205,12 @@
 
   /* Samples (spec pieces) ---------------------------------------- */
   function renderSamples(s) {
-    var audio = (s.audio || []).map(function (t) { return audioPlayerHtml(t); }).join("");
-    var videos = (s.video || []).map(videoCardHtml).join("");
+    var audio = (s.audio || []).map(function (t) { return audioPlayerHtml(t, null, s.setup); }).join("");
+    var videos = (s.video || []).map(function (v) { return videoCardHtml(v, s.setup); }).join("");
     var videoBlock = videos ? '<div class="video-grid sample-videos">' + videos + "</div>" : "";
-    var setup = s.setup ? '<p class="sample-setup">🎙️ ' + esc(s.setup) + "</p>" : "";
 
     $("samplesInner").innerHTML =
       sectionHead(s.eyebrow, s.heading, s.sub) +
-      setup +
       '<div class="audio-grid">' + audio + "</div>" +
       videoBlock;
   }

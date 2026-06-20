@@ -58,7 +58,7 @@
         "summary": "Voice over & narration for a product launch film.",
         "media": { "kind": "video", "src": "assets/video/female-secret.mp4", "poster": "assets/img/female-secret-poster.jpg" },
         "meta": {
-          "turnaround": "Delivered in 3 days",
+          "turnaround": "Delivered in 1 day",
           "setup": "Mobile recording · CapCut Pro",
           "language": "Indonesian",
           "year": "2026",
@@ -73,7 +73,7 @@
     "eyebrow": "Voice samples",
     "heading": "Hear the range.",
     "sub": "Spec pieces I recorded to show different styles and tones — not client work.",
-    "setup": "All samples recorded at home and edited in CapCut Premium.",
+    "setup": "Home recording · CapCut Premium",
     "audio": [
       { "tag": "Hard Selling", "language": "Indonesian", "title": "Hard Selling Sample", "desc": "High-energy, persuasive delivery for promos and direct-response spots.", "src": "assets/audio/hard-selling-id.mp3" },
       { "tag": "Narration", "language": "Indonesian", "title": "Narration Sample", "desc": "Warm, steady storytelling for documentary and corporate pieces.", "src": "assets/audio/narration-id.mp3" },
