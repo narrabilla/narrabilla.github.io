@@ -31,8 +31,9 @@ your name, bio, demos, services, contact details. A quick map of what's inside:
 | `site` | Your name, initials (logo), nav links, SEO title/description |
 | `hero` | The big headline, intro paragraph, badge, stats, photo |
 | `about` | Bio paragraphs, the quality "chips", the details panel |
-| `demos.audio` | Your audio reels (a **list** — add/remove freely) |
-| `demos.video` | Your video work (a **list** — add/remove freely) |
+| `projects` | **Real client work** — shown with process details (turnaround, setup…) |
+| `samples.audio` | **Spec audio reels** — a list you add to |
+| `samples.video` | **Spec video samples** — optional list |
 | `services` | The "How I can help" cards |
 | `why` | The "Why work with…" cards |
 | `contact` | Headline, intro, and your Instagram / WhatsApp / email |
@@ -47,7 +48,16 @@ looks broken after an edit, paste the file into <https://jsonlint.com> to spot t
 
 ---
 
-## 🎬 Adding a video
+## 🗂️ Projects vs. samples
+
+The site shows two kinds of work in two sections:
+
+- **`projects`** — real client work. Each shows **process details** (turnaround, setup,
+  language, year…) so a client can predict their own timeline. As real projects come in,
+  just delete old samples whenever you like.
+- **`samples`** — spec pieces you recorded yourself to show range. Labelled "not client work".
+
+## 🎬 Adding a project (real client work)
 
 **Never put a raw camera/export file on the site.** They're huge (your first raw clip
 was 207MB) and may use a codec that won't play in Chrome/Firefox. Compress first:
@@ -58,29 +68,46 @@ brew install ffmpeg           # one-time
 ```
 
 That creates `assets/video/my-clip.mp4` (~30MB, plays everywhere) + a poster image.
-Then add an entry to the **`demos.video`** list in `content.json`:
+Then add an entry to the **`projects.items`** list in `content.json`:
 
 ```json
-{ "title": "My Project", "caption": "Voice over & narration.",
-  "src": "assets/video/my-clip.mp4", "poster": "assets/img/my-clip-poster.jpg" }
+{
+  "title": "My Project",
+  "category": "Commercial",
+  "summary": "What you did, in one line.",
+  "media": { "kind": "video", "src": "assets/video/my-clip.mp4", "poster": "assets/img/my-clip-poster.jpg" },
+  "meta": {
+    "turnaround": "Delivered in 3 days",
+    "setup": "Mobile recording · CapCut Pro",
+    "language": "Indonesian",
+    "year": "2026",
+    "client": "",
+    "scope": ""
+  }
+}
 ```
 
-> **Why compress:** GitHub Pages rejects any single file over **100MB** and has a
-> ~100GB/month bandwidth soft-cap. ~30MB clips stay safely under both. If you ever add
-> *lots* of videos or get heavy traffic, upload to **YouTube (unlisted)** instead.
+Every `meta` field is optional — leave any `""` and it simply won't show. For an
+**audio** project, use `"media": { "kind": "audio", "src": "assets/audio/my-track.mp3" }`.
 
-Videos show in a **vertical 9:16** (phone-shaped) player. Horizontal videos will
-letterbox — adjust `aspect-ratio` in `.vcard__frame` (css/styles.css) if you need wide.
+> **Be honest with `turnaround`** — put the real time a project took, not a promise. One
+> data point isn't a guarantee; it becomes a reliable predictor as projects add up.
 
-## 🎧 Adding an audio reel
+> **Why compress:** GitHub Pages rejects any file over **100MB** and has a ~100GB/month
+> bandwidth cap. ~30MB clips stay safely under both. For *lots* of videos or heavy
+> traffic, upload to **YouTube (unlisted)** instead.
+
+## 🎧 Adding a voice sample
 
 1. Drop the MP3 into `assets/audio/` (e.g. `assets/audio/my-reel.mp3`).
-2. Add an entry to the **`demos.audio`** list in `content.json`:
+2. Add an entry to the **`samples.audio`** list in `content.json`:
 
 ```json
 { "tag": "Commercial", "title": "My Reel", "desc": "A short description.",
   "src": "assets/audio/my-reel.mp3" }
 ```
+
+(For a spec *video* sample, add to `samples.video` with `title`, `caption`, `src`, `poster`.)
 
 Until the MP3 exists, that player politely shows "soon" instead of breaking.
 

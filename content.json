@@ -1,5 +1,5 @@
 {
-  "_note": "Edit this file to update the whole site — name, bio, demos, services, contact. See README.md ('Editing your content') for how. After editing, refresh the page (served by a server / GitHub Pages, not by double-clicking the file).",
+  "_note": "Edit this file to update the whole site. 'projects' = real client work (shown with process details). 'samples' = spec pieces you recorded to show range. See README.md. View via a server / GitHub Pages, not by double-clicking the file.",
 
   "site": {
     "name": "Nabilla Zahrina",
@@ -9,7 +9,7 @@
     "seoDescription": "Bilingual Indonesian and English voice over with a warm, conversational tone — natural, genuine, and easy to listen to, for commercials, narration, e-learning and more. Fresh talent, fast and flexible.",
     "navLinks": [
       { "label": "About", "href": "#about" },
-      { "label": "Demos", "href": "#demos" },
+      { "label": "Work", "href": "#projects" },
       { "label": "Services", "href": "#services" },
       { "label": "Why me", "href": "#testimonials" }
     ],
@@ -23,7 +23,7 @@
     "lede": "Hi, I'm Nabilla — a voice-over artist with a warm, conversational style that feels natural, genuine, and easy to listen to. I work across commercials, narration, e-learning and beyond, in both Indonesian and English — and I'm open to all kinds of projects.",
     "photo": "",
     "badge": "Home recording · ID & EN voice",
-    "ctaPrimary": { "label": "Hear my demos", "href": "#demos" },
+    "ctaPrimary": { "label": "Hear my demos", "href": "#projects" },
     "ctaSecondary": { "label": "Book me for a project", "href": "#contact" },
     "stats": [
       { "value": "ID + EN", "label": "voiced in both" },
@@ -47,21 +47,39 @@
     ]
   },
 
-  "demos": {
-    "eyebrow": "Demos",
-    "heading": "Have a listen & a look.",
-    "sub": "Audio reels by category, plus selected video work.",
-    "audioTabLabel": "🎧 Audio reels",
-    "videoTabLabel": "🎬 Video work",
+  "projects": {
+    "eyebrow": "Portfolio",
+    "heading": "Selected work.",
+    "sub": "Real client projects — and how each one came together, so you know what to expect.",
+    "items": [
+      {
+        "title": "Female Secret",
+        "category": "Commercial",
+        "summary": "Voice over & narration for a product launch film.",
+        "media": { "kind": "video", "src": "assets/video/female-secret.mp4", "poster": "assets/img/female-secret-poster.jpg" },
+        "meta": {
+          "turnaround": "Delivered in 3 days",
+          "setup": "Mobile recording · CapCut Pro",
+          "language": "Indonesian",
+          "year": "2026",
+          "client": "",
+          "scope": ""
+        }
+      }
+    ]
+  },
+
+  "samples": {
+    "eyebrow": "Voice samples",
+    "heading": "Hear the range.",
+    "sub": "Spec pieces I recorded to show different styles and tones — not client work.",
     "audio": [
       { "tag": "Commercial", "title": "Commercial Reel", "desc": "Bright, brand-friendly spots — retail, tech & lifestyle.", "src": "assets/audio/commercial-reel.mp3" },
       { "tag": "Narration", "title": "Narration Reel", "desc": "Documentary & corporate storytelling with a steady, warm hand.", "src": "assets/audio/narration-reel.mp3" },
       { "tag": "e-Learning", "title": "e-Learning Reel", "desc": "Clear, friendly, easy to follow — modules that don't put you to sleep.", "src": "assets/audio/elearning-reel.mp3" },
       { "tag": "Character", "title": "Character & Animation", "desc": "A playful cast of voices for games, animation & explainers.", "src": "assets/audio/character-reel.mp3" }
     ],
-    "video": [
-      { "title": "Female Secret", "caption": "Voice over & narration.", "src": "assets/video/female-secret.mp4", "poster": "assets/img/female-secret-poster.jpg" }
-    ]
+    "video": []
   },
 
   "services": {

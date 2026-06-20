@@ -39,7 +39,8 @@
     renderNav(s);
     renderHero(d.hero || {});
     renderAbout(d.about || {});
-    renderDemos(d.demos || {});
+    renderProjects(d.projects || {});
+    renderSamples(d.samples || {});
     renderServices(d.services || {});
     renderWhy(d.why || {});
     renderContact(d.contact || {});
@@ -108,48 +109,95 @@
       "</div>";
   }
 
-  function renderDemos(dm) {
-    var audio = (dm.audio || []).map(function (t) {
+  /* Reusable bits ------------------------------------------------ */
+  function audioPlayerHtml(t, titleOverride) {
+    return (
+      '<article class="player" data-src="' + esc(t.src) + '">' +
+        '<div class="player__top"><span class="player__tag">' + esc(t.tag) + "</span>" +
+          '<span class="player__time" data-role="time">--:--</span></div>' +
+        '<h3 class="player__title">' + esc(titleOverride || t.title) + "</h3>" +
+        (t.desc ? '<p class="player__desc">' + esc(t.desc) + "</p>" : "") +
+        '<div class="player__controls">' +
+          '<button class="player__play" data-role="play" aria-label="Play">▶</button>' +
+          '<div class="player__bar" data-role="bar"><span data-role="fill"></span></div>' +
+        "</div>" +
+      "</article>"
+    );
+  }
+  function videoCardHtml(v) {
+    return (
+      '<figure class="vcard"><div class="vcard__frame">' +
+        '<video class="vcard__video" controls preload="none" playsinline poster="' + esc(v.poster) + '">' +
+          '<source src="' + esc(v.src) + '" type="video/mp4" />' +
+          "Your browser doesn't support embedded video." +
+        "</video></div>" +
+        '<figcaption class="vcard__cap"><h3>' + esc(v.title) + "</h3><p>" + esc(v.caption) + "</p></figcaption>" +
+      "</figure>"
+    );
+  }
+  function sectionHead(eyebrow, heading, sub) {
+    return '<div class="section__head"><p class="eyebrow">' + esc(eyebrow) + "</p>" +
+      '<h2 class="section__title">' + esc(heading) + "</h2>" +
+      (sub ? '<p class="section__sub">' + esc(sub) + "</p>" : "") + "</div>";
+  }
+
+  /* Projects (real client work, with process details) ------------ */
+  function metaStrip(meta) {
+    meta = meta || {};
+    var rows = [];
+    var add = function (icon, val) {
+      if (val) rows.push('<span class="meta-item"><span class="meta-ic">' + icon + "</span>" + esc(val) + "</span>");
+    };
+    add("⏱", meta.turnaround);
+    add("🎚️", meta.setup);
+    add("🗣️", meta.language);
+    add("📅", meta.year);
+    add("🏷️", meta.client);
+    add("📐", meta.scope);
+    return rows.length ? '<div class="project__meta">' + rows.join("") + "</div>" : "";
+  }
+
+  function renderProjects(p) {
+    var items = (p.items || []).map(function (it) {
+      var m = it.media || {};
+      var media;
+      if (m.kind === "audio") {
+        media = '<div class="project__media">' + audioPlayerHtml({ src: m.src, tag: it.category }, "Listen") + "</div>";
+      } else {
+        media =
+          '<div class="project__media"><div class="project__frame">' +
+            '<video controls preload="none" playsinline poster="' + esc(m.poster) + '">' +
+              '<source src="' + esc(m.src) + '" type="video/mp4" />' +
+              "Your browser doesn't support embedded video." +
+            "</video></div></div>";
+      }
       return (
-        '<article class="player" data-src="' + esc(t.src) + '">' +
-          '<div class="player__top"><span class="player__tag">' + esc(t.tag) + "</span>" +
-            '<span class="player__time" data-role="time">--:--</span></div>' +
-          '<h3 class="player__title">' + esc(t.title) + "</h3>" +
-          '<p class="player__desc">' + esc(t.desc) + "</p>" +
-          '<div class="player__controls">' +
-            '<button class="player__play" data-role="play" aria-label="Play">▶</button>' +
-            '<div class="player__bar" data-role="bar"><span data-role="fill"></span></div>' +
+        '<article class="project">' + media +
+          '<div class="project__body">' +
+            (it.category ? '<span class="project__cat">' + esc(it.category) + "</span>" : "") +
+            '<h3 class="project__title">' + esc(it.title) + "</h3>" +
+            (it.summary ? '<p class="project__summary">' + esc(it.summary) + "</p>" : "") +
+            metaStrip(it.meta) +
           "</div>" +
         "</article>"
       );
     }).join("");
 
-    var video = (dm.video || []).map(function (v) {
-      return (
-        '<figure class="vcard"><div class="vcard__frame">' +
-          '<video class="vcard__video" controls preload="none" playsinline poster="' + esc(v.poster) + '">' +
-            '<source src="' + esc(v.src) + '" type="video/mp4" />' +
-            "Your browser doesn't support embedded video." +
-          "</video></div>" +
-          '<figcaption class="vcard__cap"><h3>' + esc(v.title) + "</h3><p>" + esc(v.caption) + "</p></figcaption>" +
-        "</figure>"
-      );
-    }).join("");
+    $("projectsInner").innerHTML =
+      sectionHead(p.eyebrow, p.heading, p.sub) +
+      '<div class="projects-grid">' + items + "</div>";
+  }
 
-    $("demosInner").innerHTML =
-      '<div class="section__head"><p class="eyebrow">' + esc(dm.eyebrow) + '</p>' +
-        '<h2 class="section__title">' + esc(dm.heading) + "</h2>" +
-        '<p class="section__sub">' + esc(dm.sub) + "</p></div>" +
-      '<div class="tabs" role="tablist" aria-label="Demo categories">' +
-        '<button class="tab is-active" role="tab" aria-selected="true" data-tab="audio">' + esc(dm.audioTabLabel) + "</button>" +
-        '<button class="tab" role="tab" aria-selected="false" data-tab="video">' + esc(dm.videoTabLabel) + "</button>" +
-      "</div>" +
-      '<div class="tab-panel is-active" id="panel-audio" role="tabpanel">' +
-        '<div class="audio-grid">' + audio + "</div>" +
-      "</div>" +
-      '<div class="tab-panel" id="panel-video" role="tabpanel" hidden>' +
-        '<div class="video-grid">' + video + "</div>" +
-      "</div>";
+  /* Samples (spec pieces) ---------------------------------------- */
+  function renderSamples(s) {
+    var audio = (s.audio || []).map(function (t) { return audioPlayerHtml(t); }).join("");
+    var videos = (s.video || []).map(videoCardHtml).join("");
+    var videoBlock = videos ? '<div class="video-grid sample-videos">' + videos + "</div>" : "";
+
+    $("samplesInner").innerHTML =
+      sectionHead(s.eyebrow, s.heading, s.sub) +
+      '<div class="audio-grid">' + audio + "</div>" +
+      videoBlock;
   }
 
   function cardHtml(c) {
@@ -158,20 +206,15 @@
   }
 
   function renderServices(sv) {
-    var cards = (sv.items || []).map(cardHtml).join("");
     $("servicesInner").innerHTML =
-      '<div class="section__head"><p class="eyebrow">' + esc(sv.eyebrow) + '</p>' +
-        '<h2 class="section__title">' + esc(sv.heading) + "</h2></div>" +
-      '<div class="cards">' + cards + "</div>";
+      sectionHead(sv.eyebrow, sv.heading) +
+      '<div class="cards">' + (sv.items || []).map(cardHtml).join("") + "</div>";
   }
 
   function renderWhy(w) {
-    var cards = (w.cards || []).map(cardHtml).join("");
     $("whyInner").innerHTML =
-      '<div class="section__head"><p class="eyebrow">' + esc(w.eyebrow) + '</p>' +
-        '<h2 class="section__title">' + esc(w.heading) + "</h2>" +
-        '<p class="section__sub">' + esc(w.sub) + "</p></div>" +
-      '<div class="cards">' + cards + "</div>";
+      sectionHead(w.eyebrow, w.heading, w.sub) +
+      '<div class="cards">' + (w.cards || []).map(cardHtml).join("") + "</div>";
   }
 
   function methodHtml(icon, label, value, href, external) {
@@ -247,26 +290,8 @@
           });
         });
       }, { rootMargin: "-45% 0px -50% 0px" });
-      sections.forEach(function (s) { spy.observe(s); });
+      sections.forEach(function (sec) { spy.observe(sec); });
     }
-
-    /* Demo tabs */
-    var tabs = [].slice.call(document.querySelectorAll(".tab"));
-    tabs.forEach(function (tab) {
-      tab.addEventListener("click", function () {
-        var target = tab.getAttribute("data-tab");
-        tabs.forEach(function (t) {
-          var active = t === tab;
-          t.classList.toggle("is-active", active);
-          t.setAttribute("aria-selected", String(active));
-        });
-        document.querySelectorAll(".tab-panel").forEach(function (panel) {
-          var show = panel.id === "panel-" + target;
-          panel.classList.toggle("is-active", show);
-          panel.hidden = !show;
-        });
-      });
-    });
 
     initAudioPlayers();
   }
