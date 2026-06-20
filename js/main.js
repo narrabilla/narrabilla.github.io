@@ -110,10 +110,14 @@
   }
 
   /* Reusable bits ------------------------------------------------ */
+  function langPill(lang) {
+    return lang ? '<span class="lang-pill">' + esc(lang) + "</span>" : "";
+  }
   function audioPlayerHtml(t, titleOverride) {
     return (
       '<article class="player" data-src="' + esc(t.src) + '">' +
-        '<div class="player__top"><span class="player__tag">' + esc(t.tag) + "</span>" +
+        '<div class="player__top">' +
+          '<div class="player__labels"><span class="player__tag">' + esc(t.tag) + "</span>" + langPill(t.language) + "</div>" +
           '<span class="player__time" data-role="time">--:--</span></div>' +
         '<h3 class="player__title">' + esc(titleOverride || t.title) + "</h3>" +
         (t.desc ? '<p class="player__desc">' + esc(t.desc) + "</p>" : "") +
@@ -125,13 +129,18 @@
     );
   }
   function videoCardHtml(v) {
+    var aspect = v.aspect ? ' style="aspect-ratio:' + esc(v.aspect) + '"' : "";
+    var labels = (v.tag || v.language)
+      ? '<div class="vcard__labels">' + (v.tag ? '<span class="player__tag">' + esc(v.tag) + "</span>" : "") + langPill(v.language) + "</div>"
+      : "";
     return (
-      '<figure class="vcard"><div class="vcard__frame">' +
+      '<figure class="vcard"><div class="vcard__frame"' + aspect + ">" +
         '<video class="vcard__video" controls preload="none" playsinline poster="' + esc(v.poster) + '">' +
           '<source src="' + esc(v.src) + '" type="video/mp4" />' +
           "Your browser doesn't support embedded video." +
         "</video></div>" +
-        '<figcaption class="vcard__cap"><h3>' + esc(v.title) + "</h3><p>" + esc(v.caption) + "</p></figcaption>" +
+        '<figcaption class="vcard__cap">' + labels +
+          "<h3>" + esc(v.title) + "</h3><p>" + esc(v.caption) + "</p></figcaption>" +
       "</figure>"
     );
   }
@@ -193,9 +202,11 @@
     var audio = (s.audio || []).map(function (t) { return audioPlayerHtml(t); }).join("");
     var videos = (s.video || []).map(videoCardHtml).join("");
     var videoBlock = videos ? '<div class="video-grid sample-videos">' + videos + "</div>" : "";
+    var setup = s.setup ? '<p class="sample-setup">🎙️ ' + esc(s.setup) + "</p>" : "";
 
     $("samplesInner").innerHTML =
       sectionHead(s.eyebrow, s.heading, s.sub) +
+      setup +
       '<div class="audio-grid">' + audio + "</div>" +
       videoBlock;
   }
@@ -296,7 +307,7 @@
     initAudioPlayers();
   }
 
-  /* ---------- Custom audio players (one shared <audio>) ---------- */
+  /* ---------- Custom audio players + "only one media at a time" ---------- */
   function initAudioPlayers() {
     var audio = new Audio();
     var current = null;
@@ -324,33 +335,28 @@
         timeEl.textContent = "soon";
       });
 
-      var setPlayingUI = function (playing) {
+      // Defined on the element so the shared <audio> events below can reach them.
+      player._setPlaying = function (playing) {
         playBtn.classList.toggle("is-playing", playing);
         playBtn.textContent = playing ? "❚❚" : "▶";
         playBtn.setAttribute("aria-label", playing ? "Pause" : "Play");
+      };
+      player._reset = function () { player._setPlaying(false); fill.style.width = "0%"; };
+      player._sync = function () {
+        var pct = (audio.currentTime / audio.duration) * 100 || 0;
+        fill.style.width = pct + "%";
+        timeEl.textContent = fmt(audio.duration - audio.currentTime);
       };
 
       playBtn.addEventListener("click", function () {
         if (player.classList.contains("is-disabled")) return;
         if (current && current !== player) current._reset();
-
         if (current !== player) {
           audio.src = src;
           current = player;
-          current._reset = function () { setPlayingUI(false); fill.style.width = "0%"; };
-          current._sync = function () {
-            var pct = (audio.currentTime / audio.duration) * 100 || 0;
-            fill.style.width = pct + "%";
-            timeEl.textContent = fmt(audio.duration - audio.currentTime);
-          };
         }
-
-        if (audio.paused) {
-          audio.play().then(function () { setPlayingUI(true); }).catch(function () {});
-        } else {
-          audio.pause();
-          setPlayingUI(false);
-        }
+        if (audio.paused) audio.play().catch(function () {});
+        else audio.pause();
       });
 
       bar.addEventListener("click", function (e) {
@@ -360,8 +366,23 @@
       });
     });
 
+    // Keep each player's button in sync with the shared <audio> — including when
+    // it's paused by something else (e.g. a video starting).
+    audio.addEventListener("play", function () { if (current) current._setPlaying(true); });
+    audio.addEventListener("pause", function () { if (current) current._setPlaying(false); });
     audio.addEventListener("timeupdate", function () { if (current && current._sync) current._sync(); });
     audio.addEventListener("ended", function () { if (current && current._reset) current._reset(); });
+
+    // Only one media plays at a time across the whole page: when any audio OR
+    // video starts, pause every other one.
+    var allMedia = [audio].concat([].slice.call(document.querySelectorAll("video")));
+    allMedia.forEach(function (m) {
+      m.addEventListener("play", function () {
+        allMedia.forEach(function (other) {
+          if (other !== m && !other.paused) other.pause();
+        });
+      });
+    });
   }
 
   /* ---------- Friendly error if content.json can't be loaded ---------- */

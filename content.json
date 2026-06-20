@@ -73,13 +73,15 @@
     "eyebrow": "Voice samples",
     "heading": "Hear the range.",
     "sub": "Spec pieces I recorded to show different styles and tones — not client work.",
+    "setup": "All samples recorded at home and edited in CapCut Premium.",
     "audio": [
-      { "tag": "Commercial", "title": "Commercial Reel", "desc": "Bright, brand-friendly spots — retail, tech & lifestyle.", "src": "assets/audio/commercial-reel.mp3" },
-      { "tag": "Narration", "title": "Narration Reel", "desc": "Documentary & corporate storytelling with a steady, warm hand.", "src": "assets/audio/narration-reel.mp3" },
-      { "tag": "e-Learning", "title": "e-Learning Reel", "desc": "Clear, friendly, easy to follow — modules that don't put you to sleep.", "src": "assets/audio/elearning-reel.mp3" },
-      { "tag": "Character", "title": "Character & Animation", "desc": "A playful cast of voices for games, animation & explainers.", "src": "assets/audio/character-reel.mp3" }
+      { "tag": "Hard Selling", "language": "Indonesian", "title": "Hard Selling Sample", "desc": "High-energy, persuasive delivery for promos and direct-response spots.", "src": "assets/audio/hard-selling-id.mp3" },
+      { "tag": "Narration", "language": "Indonesian", "title": "Narration Sample", "desc": "Warm, steady storytelling for documentary and corporate pieces.", "src": "assets/audio/narration-id.mp3" },
+      { "tag": "Public Announcement", "language": "English", "title": "Public Announcement Sample", "desc": "Clear, authoritative English for announcements and information.", "src": "assets/audio/public-announcement-en.mp3" }
     ],
-    "video": []
+    "video": [
+      { "tag": "Voice Acting", "language": "Indonesian", "title": "Voice Acting Sample", "caption": "Character and emotion — bringing a script to life.", "src": "assets/video/voice-acting-id.mp4", "poster": "assets/img/voice-acting-id-poster.jpg", "aspect": "1280 / 580" }
+    ]
   },
 
   "services": {
