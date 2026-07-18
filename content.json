@@ -75,11 +75,11 @@
     "sub": "Spec pieces I recorded to show different styles and tones — not client work.",
     "setup": "Home recording · CapCut Pro",
     "audio": [
-      { "tag": "Hard Selling", "language": "Indonesian", "title": "Hard Selling Sample", "desc": "High-energy, persuasive delivery for promos and direct-response spots.", "src": "assets/audio/starplus-hardselling.mp3" },
+      { "tag": "Hard Selling", "language": "Indonesian", "title": "Hard Selling Sample", "desc": "High-energy, persuasive delivery for promos and direct-response spots.", "src": "assets/audio/starplus-hardselling.mp3", "setup": "Home recording · Audacity" },
       { "tag": "Narration", "language": "Indonesian", "title": "Narration Sample", "desc": "Warm, steady storytelling for documentary and corporate pieces.", "src": "assets/audio/narration-id.mp3" },
       { "tag": "Public Announcement", "language": "English", "title": "Public Announcement Sample", "desc": "Clear, authoritative English for announcements and information.", "src": "assets/audio/public-announcement-en.mp3" },
-      { "tag": "Radio Announcer", "language": "English", "title": "Radio Announcer Sample", "desc": "Clear, lively announcing for radio programs, promotions, and station branding.", "src": "assets/audio/radio-announcer.wav" },
-      { "tag": "Audiobook", "language": "Indonesian", "title": "Audiobook Education Sample", "desc": "Clear, engaging narration designed for educational audiobooks and learning materials.", "src": "assets/audio/audiobook-science.mp3" }
+      { "tag": "Radio Announcer", "language": "English", "title": "Radio Announcer Sample", "desc": "Clear, lively announcing for radio programs, promotions, and station branding.", "src": "assets/audio/radio-announcer.wav", "setup": "Home recording · Audacity" },
+      { "tag": "Audiobook", "language": "Indonesian", "title": "Audiobook Education Sample", "desc": "Clear, engaging narration designed for educational audiobooks and learning materials.", "src": "assets/audio/audiobook-science.mp3", "setup": "Home recording · Audacity" }
     ],
     "video": [
       { "tag": "Voice Acting", "language": "Indonesian", "title": "Voice Acting Sample", "caption": "Character and emotion — bringing a script to life.", "src": "assets/video/voice-acting-id.mp4", "poster": "assets/img/voice-acting-id-poster.jpg", "aspect": "1280 / 580" }
