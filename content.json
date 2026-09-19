@@ -65,6 +65,20 @@
           "client": "",
           "scope": ""
         }
+      },
+      {
+        "title": "Azarine",
+        "category": "Product knowledge",
+        "summary": "Voice over & narration for a product knowledge.",
+        "media": { "kind": "video", "src": "assets/video/azarine_mattelite_lock_lipstick.mp4", "poster": "assets/img/poster_azarine.jpg" },
+        "meta": {
+          "turnaround": "Delivered in 3 days",
+          "setup": "Maono PD 100X · Audacity",
+          "language": "Indoensia",
+          "year": "2026",
+          "client": "Versus studio",
+          "scope": ""
+        }
       }
     ]
   },
